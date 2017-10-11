@@ -43,3 +43,5 @@ ssp-vsm-admin:
   scale: 1
 ssp-gateway:
   scale: 1
+ssp-vsm-adapter:
+  scale: 1
