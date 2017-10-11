@@ -1,0 +1,5 @@
+name: SSP Catalog
+description: |
+  Microservices cluster for SSP environment.
+version: ssp-0.1
+category: Enterprise Portal
