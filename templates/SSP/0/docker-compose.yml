@@ -34,7 +34,7 @@ services:
   # Auth container
   ssp-auth:
     image: docker.skidata.net/ssp-auth:0.6.5-SNAPSHOT
-    expose:
+    ports:
       - "9999"
     links:
       - ssp-discovery
@@ -60,7 +60,7 @@ services:
   # Gateway container
   ssp-gateway:
     image: docker.skidata.net/ssp-gateway:0.6.4-SNAPSHOT
-    expose:
+    ports:
       - "8080"
     links:
       - ssp-discovery
@@ -103,7 +103,7 @@ services:
   #Notification-Container
   ssp-notification:
      image: docker.skidata.net/ssp-notification:0.6.3-SNAPSHOT
-     ports:
+     expose:
       - "30020"
      links:
         - ssp-discovery
@@ -141,7 +141,7 @@ services:
   #Admin Portal container
   ssp-vsm-admin:
     image: docker.skidata.net/ssp-vsm-admin:0.6.3-SNAPSHOT
-    expose:
+    ports:
       - "20000"
     links:
       - ssp-discovery
@@ -155,7 +155,7 @@ services:
   # Order container
   ssp-order:
     image: docker.skidata.net/ssp-order:0.6.3-SNAPSHOT
-    ports:
+    expose:
       - "32010"
     links:
       - ssp-discovery
@@ -170,7 +170,7 @@ services:
   #VSM-Adapter
   ssp-vsm-adapter:
     image: docker.skidata.net/ssp-vsm-adapter:0.0.1-SNAPSHOT
-    ports:
+    expose:
       - "40030"
     links:
       - ssp-discovery
