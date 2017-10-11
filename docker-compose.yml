@@ -3,11 +3,10 @@ version: '2'
 services:
   # Postgresql container
   ssp-postgresql:
-    image: swblr.skidata.net/ssp-postgresql:0.3
+    image: docker.skidata.net/ssp-postgresql:0.3
   # build: ./postgres
-    mem_limit: 1024m
-    ports:
-      - 5432:5432
+    expose:
+      - "5432"
     volumes:
       - db_data:/var/lib/postgres
     restart: always
@@ -17,55 +16,52 @@ services:
   # RabbitMQ container
   ssp-rabbitmq:
     image: tutum/rabbitmq
-    mem_limit: 1024m
-    ports:
-      - 5672:5672
-      - 15672:15672
+    expose:
+      - "5672"
+      - "15672"
     environment:
       RABBITMQ_PASS: admin
     restart: always
   # Discovery container
   ssp-discovery:
-    image: swblr.skidata.net/ssp-discovery:0.6.3-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 8761:8761
+    image: docker.skidata.net/ssp-discovery:0.6.3-SNAPSHOT
+    expose:
+      - "8761"
     environment:
       SPRING_PROFILES_ACTIVE: docker
       JAVA_OPTS: "-Xmx512m -Xss256k"
     restart: always
   # Auth container
   ssp-auth:
-    image: swblr.skidata.net/ssp-auth:0.6.5-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 9999:9999
+    image: docker.skidata.net/ssp-auth:0.6.5-SNAPSHOT
+    expose:
+      - "9999"
     links:
       - ssp-discovery
       - ssp-rabbitmq
+      - ssp-postgresql
     environment:
       SPRING_PROFILES_ACTIVE: docker
       VIRTUAL_HOST: "*/auth, */auth/*"
     restart: always
   # Product container
   ssp-pim:
-    image: swblr.skidata.net/ssp-pim:0.6.3-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 31020:31020
+    image: docker.skidata.net/ssp-pim:0.6.3-SNAPSHOT
+    expose:
+      - "31020"
     links:
       - ssp-discovery
       - ssp-rabbitmq
+      - ssp-postgresql
       - ssp-auth
     environment:
       SPRING_PROFILES_ACTIVE: docker
     restart: on-failure
   # Gateway container
   ssp-gateway:
-    image: swblr.skidata.net/ssp-gateway:0.6.4-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 8080:8080
+    image: docker.skidata.net/ssp-gateway:0.6.4-SNAPSHOT
+    expose:
+      - "8080"
     links:
       - ssp-discovery
       - ssp-auth
@@ -78,13 +74,13 @@ services:
     restart: on-failure
   # Portal container
   ssp-portal:
-    image: swblr.skidata.net/ssp-portal:0.6.4-SNAPSHOT
-    mem_limit: 1024m
+    image: docker.skidata.net/ssp-portal:0.6.4-SNAPSHOT
     ports:
-      - 10000:10000
+      - "10000"
     links:
       - ssp-discovery
       - ssp-gateway
+      - ssp-postgresql
       - ssp-auth
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -93,12 +89,12 @@ services:
     restart: on-failure      
   #Partner-Container
   ssp-partner:
-     image: swblr.skidata.net/ssp-partner:0.6.3-SNAPSHOT
-     mem_limit: 1024m
-     ports:
-      - 31010:31010
+     image: docker.skidata.net/ssp-partner:0.6.3-SNAPSHOT
+     expose:
+      - "31010"
      links:
         - ssp-discovery
+        - ssp-postgresql
         - ssp-rabbitmq
         - ssp-auth
      environment:
@@ -106,23 +102,22 @@ services:
      restart: on-failure 
   #Notification-Container
   ssp-notification:
-     image: swblr.skidata.net/ssp-notification:0.6.3-SNAPSHOT
-     mem_limit: 1024m
+     image: docker.skidata.net/ssp-notification:0.6.3-SNAPSHOT
      ports:
-      - 30020:30020
+      - "30020"
      links:
         - ssp-discovery
         - ssp-rabbitmq
+        - ssp-postgresql
         - ssp-auth
      environment:
           SPRING_PROFILES_ACTIVE: docker
      restart: on-failure
   #Vault-Container
   ssp-vault:
-     image: swblr.skidata.net/ssp-vault:0.6.3-SNAPSHOT
-     mem_limit: 1024m
-     ports:
-      - 30010:30010
+     image: docker.skidata.net/ssp-vault:0.6.3-SNAPSHOT
+     expose:
+      - "30010"
      links:
         - ssp-discovery
         - ssp-rabbitmq
@@ -133,10 +128,9 @@ services:
      restart: on-failure 
   #Dta-Adapter
   ssp-dta-adapter:
-    image: swblr.skidata.net/ssp-dta-adapter:0.6.3-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 40010:40010
+    image: docker.skidata.net/ssp-dta-adapter:0.6.3-SNAPSHOT
+    expose:
+      - "40010"
     links:
       - ssp-discovery
       - ssp-rabbitmq
@@ -146,10 +140,9 @@ services:
     restart: on-failure
   #Admin Portal container
   ssp-vsm-admin:
-    image: swblr.skidata.net/ssp-vsm-admin:0.6.3-SNAPSHOT
-    mem_limit: 1024m
-    ports:
-      - 20000:20000
+    image: docker.skidata.net/ssp-vsm-admin:0.6.3-SNAPSHOT
+    expose:
+      - "20000"
     links:
       - ssp-discovery
       - ssp-gateway
@@ -161,13 +154,13 @@ services:
     restart: on-failure
   # Order container
   ssp-order:
-    image: swblr.skidata.net/ssp-order:0.6.3-SNAPSHOT
-    mem_limit: 1024m
+    image: docker.skidata.net/ssp-order:0.6.3-SNAPSHOT
     ports:
-      - 32010:32010
+      - "32010"
     links:
       - ssp-discovery
       - ssp-rabbitmq
+      - ssp-postgresql
       - ssp-auth
       - ssp-partner
       - ssp-pim
@@ -176,10 +169,9 @@ services:
     restart: on-failure
   #VSM-Adapter
   ssp-vsm-adapter:
-    image: swblr.skidata.net/ssp-vsm-adapter:0.0.1-SNAPSHOT
-    mem_limit: 1024m
+    image: docker.skidata.net/ssp-vsm-adapter:0.0.1-SNAPSHOT
     ports:
-      - 40030:40030
+      - "40030"
     links:
       - ssp-discovery
       - ssp-rabbitmq
@@ -190,12 +182,11 @@ services:
   # HA Proxy 
   ssp-haproxy:
     image: dockercloud/haproxy
-    mem_limit: 512m
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports: 
-      - 80:80
-      - 443:443
+      - 8080:80
+      - 8443:443
     links: 
       - ssp-gateway
       - ssp-auth  
