@@ -33,8 +33,6 @@ ssp-pim:
   scale: 1
 ssp-order:
   scale: 1
-ssp-payment:
-  scale: 1
 ssp-dta-adapter:
   scale: 1
 ssp-portal:
