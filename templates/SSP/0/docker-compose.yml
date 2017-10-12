@@ -74,7 +74,7 @@ services:
     restart: on-failure
   # Portal container
   ssp-portal:
-    image: docker.skidata.net/ssp-portal:0.6.4-SNAPSHOT
+    image: docker.skidata.net/ssp-portal:0.6.5-SNAPSHOT
     ports:
       - "10000"
     links:
