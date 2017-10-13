@@ -1,6 +1,6 @@
 .catalog:
   name: "Sales Platform Development"
-  version: "SSPDEV-TEMPLATE-2.0"
+  version: "SSPDEV-TEMPLATE-3.0"
   description: "Platform Development Cluster"
   uuid: sspdev-template-3
   minimum_rancher_version: v0.46.0
