@@ -1,0 +1,45 @@
+.catalog:
+  name: "Sales Platform Development"
+  version: "SSPDEV-TEMPLATE-2.0"
+  description: "Platform Development Cluster"
+  uuid: sspdev-template-3
+  minimum_rancher_version: v0.46.0
+  questions:
+
+    - variable: SSP_HOSTNAME
+      description: "Hostname with protocol for the current instance"
+      label: "Domain Name"
+      type: "string"
+      required: true
+      default: "http://hosted.skidata.net"
+      
+ssp-haproxy:
+  scale: 1
+ssp-postgresql:
+  scale: 1
+ssp-rabbitmq:
+  scale: 1
+ssp-discovery:
+  scale: 1
+ssp-vault:
+  scale: 1
+ssp-notification:
+  scale: 1
+ssp-partner:
+  scale: 1
+ssp-auth:
+  scale: 1
+ssp-pim:
+  scale: 1
+ssp-order:
+  scale: 1
+ssp-dta-adapter:
+  scale: 1
+ssp-portal:
+  scale: 1
+ssp-vsm-admin:
+  scale: 1
+ssp-gateway:
+  scale: 1
+ssp-vsm-adapter:
+  scale: 1
