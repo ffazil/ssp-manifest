@@ -7,11 +7,11 @@
   questions:
 
     - variable: SSP_HOSTNAME
-      description: "Hostname for the current instance"
+      description: "Hostname with protocol for the current instance"
       label: "Domain Name"
       type: "string"
       required: true
-      default: "hosted.skidata.net"
+      default: "http://hosted.skidata.net"
       
 ssp-haproxy:
   scale: 1
