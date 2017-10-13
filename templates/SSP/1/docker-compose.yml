@@ -14,7 +14,7 @@ services:
     expose:
     - '30010'
   ssp-portal:
-    image: docker.skidata.net/ssp-portal:0.6.6-SNAPSHOT
+    image: docker.skidata.net/ssp-portal:0.6.8-SNAPSHOT
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SSP_HOSTNAME: http://172.27.80.27/
