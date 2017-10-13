@@ -24,8 +24,8 @@ services:
     - ssp-postgresql:ssp-postgresql
     - ssp-discovery:ssp-discovery
     - ssp-gateway:ssp-gateway
-    ports:
-    - 10000/tcp
+    expose:
+    - '10000'
   ssp-notification:
     image: docker.skidata.net/ssp-notification:0.6.3-SNAPSHOT
     environment:
@@ -105,8 +105,8 @@ services:
     - ssp-auth:ssp-auth
     - ssp-discovery:ssp-discovery
     - ssp-gateway:ssp-gateway
-    ports:
-    - 20000/tcp
+    expose:
+    - '20000'
   ssp-rabbitmq:
     image: tutum/rabbitmq
     environment:
@@ -146,8 +146,8 @@ services:
     - ssp-pim:ssp-pim
     - ssp-notification:ssp-notification
     - ssp-partner:ssp-partner
-    ports:
-    - 8080/tcp
+    expose:
+    - '8080'
   ssp-auth:
     image: docker.skidata.net/ssp-auth:0.6.5-SNAPSHOT
     environment:
@@ -157,5 +157,5 @@ services:
     - ssp-rabbitmq:ssp-rabbitmq
     - ssp-postgresql:ssp-postgresql
     - ssp-discovery:ssp-discovery
-    ports:
-    - 9999/tcp
+    expose:
+    - '9999'
