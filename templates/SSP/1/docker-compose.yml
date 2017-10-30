@@ -99,7 +99,7 @@ services:
     image: docker.skidata.net/ssp-vsm-admin:0.6.3
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SSP_HOSTNAME: http://172.27.80.27/
+      SSP_HOSTNAME: "$SSP_HOSTNAME"
       VIRTUAL_HOST: '*/ssp-vsm-admin, */ssp-vsm-admin/*'
     links:
     - ssp-auth:ssp-auth
