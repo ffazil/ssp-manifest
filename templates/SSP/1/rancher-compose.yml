@@ -40,6 +40,12 @@ services:
         service: ssp-portal
         source_port: 80
         target_port: 10000
+      - path: /admin
+        priority: 1
+        protocol: http
+        service: ssp-vsm-admin
+        source_port: 80
+        target_port: 20000        
       - hostname: ''
         path: /auth
         priority: 2
