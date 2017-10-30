@@ -96,7 +96,7 @@ services:
     expose:
     - '5432'
   ssp-vsm-admin:
-    image: docker.skidata.net/ssp-vsm-admin:0.6.3-SNAPSHOT
+    image: docker.skidata.net/ssp-vsm-admin:0.6.3
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SSP_HOSTNAME: http://172.27.80.27/
