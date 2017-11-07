@@ -87,7 +87,7 @@ services:
     expose:
     - '40030'
   ssp-postgresql:
-    image: docker.skidata.net/ssp-postgresql:0.3
+    image: docker.skidata.net/ssp-postgresql:0.4
     environment:
       PGPASSWORD: postgres
       POSTGRES_PASSWORD: postgres
