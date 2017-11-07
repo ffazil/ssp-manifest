@@ -1,0 +1,99 @@
+.catalog:
+  name: "Sales Platform Development"
+  version: "SSPDEV-TEMPLATE-4.0"
+  description: "Platform Development Cluster"
+  minimum_rancher_version: v0.46.0
+  questions:
+
+    - variable: SSP_HOSTNAME
+      description: "Hostname with protocol for the current instance"
+      label: "Domain Name"
+      type: "string"
+      required: true
+      default: "http://hosted.skidata.net"
+version: '2'
+services:
+  ssp-vault:
+    scale: 1
+    start_on_create: true
+  ssp-portal:
+    scale: 1
+    start_on_create: true
+  ssp-notification:
+    scale: 1
+    start_on_create: true
+  ssp-order:
+    scale: 1
+    start_on_create: true
+  ssp-discovery:
+    scale: 1
+    start_on_create: true
+  ssp-lb:
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - path: /portal
+        priority: 1
+        protocol: http
+        service: ssp-portal
+        source_port: 80
+        target_port: 10000
+      - path: /admin
+        priority: 1
+        protocol: http
+        service: ssp-vsm-admin
+        source_port: 80
+        target_port: 20000        
+      - hostname: ''
+        path: /auth
+        priority: 2
+        protocol: http
+        service: ssp-auth
+        source_port: 80
+        target_port: 9999
+      - hostname: ''
+        path: /
+        priority: 3
+        protocol: http
+        service: ssp-gateway
+        source_port: 80
+        target_port: 8080
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 42
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      reinitializing_timeout: 60000
+  ssp-partner:
+    scale: 1
+    start_on_create: true
+  ssp-vsm-adapter:
+    scale: 1
+    start_on_create: true
+  ssp-postgresql:
+    scale: 1
+    start_on_create: true
+  ssp-vsm-admin:
+    scale: 1
+    start_on_create: true
+  ssp-rabbitmq:
+    scale: 1
+    start_on_create: true
+  ssp-dta-adapter:
+    scale: 1
+    start_on_create: true
+  ssp-pim:
+    scale: 1
+    start_on_create: true
+  ssp-gateway:
+    scale: 1
+    start_on_create: true
+  ssp-auth:
+    scale: 1
+    start_on_create: true
+  ssp-catalog:
+    scale: 1
+    start_on_create: true
