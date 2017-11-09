@@ -160,7 +160,7 @@ services:
     expose:
     - '9999'
   ssp-catalog:
-    image: swblr.skidata.net/ssp-catalog:0.0.1
+    image: docker.skidata.net/ssp-catalog:0.0.1
     ports:
       - '31030'
     links:
