@@ -146,6 +146,7 @@ services:
     - ssp-pim:ssp-pim
     - ssp-notification:ssp-notification
     - ssp-partner:ssp-partner
+    - ssp-catalog:ssp-catalog
     expose:
     - '8080'
   ssp-auth:
