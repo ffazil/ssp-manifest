@@ -13,13 +13,13 @@
       default: "http://hosted.skidata.net"
     - variable: PROXY_HOST
       description: "Hostname or IP of the proxy to connect to internet"
-      label: "Host Name"
+      label: "Proxy Host"
       type: "string"
       required: false
       default: ""
     - variable: PROXY_PORT
       description: "Port of the proxy to connect to internet"
-      label: "Port Number"
+      label: "Proxy Port"
       type: "string"
       required: false
       default: ""
