@@ -1,0 +1,178 @@
+version: '2'
+volumes:
+  db_data: {}
+services:
+  ssp-vault:
+    image: docker.skidata.net/ssp-vault:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '30010'
+  ssp-portal:
+    image: docker.skidata.net/ssp-portal:0.6.5-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SSP_HOSTNAME: "$SSP_HOSTNAME"
+      VIRTUAL_HOST: '*/portal, */portal/*'
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    - ssp-gateway:ssp-gateway
+    expose:
+    - '10000'
+  ssp-notification:
+    image: docker.skidata.net/ssp-notification:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '30020'
+  ssp-order:
+    image: docker.skidata.net/ssp-order:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    - ssp-pim:ssp-pim
+    - ssp-partner:ssp-partner
+    expose:
+    - '32010'
+  ssp-discovery:
+    image: docker.skidata.net/ssp-discovery:0.6.4-SNAPSHOT
+    environment:
+      JAVA_OPTS: -Xmx512m -Xss256k
+      SPRING_PROFILES_ACTIVE: docker
+    expose:
+    - '8761'
+  ssp-lb:
+    image: rancher/lb-service-haproxy:v0.7.9
+    ports:
+    - 80:80/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+      io.rancher.scheduler.global: 'true'
+  ssp-partner:
+    image: docker.skidata.net/ssp-partner:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PROXY_HOST: "$PROXY_HOST"
+      PROXY_PORT: "$PROXY_PORT"
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '31010'
+  ssp-vsm-adapter:
+    image: docker.skidata.net/ssp-vsm-adapter:0.0.1-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '40030'
+  ssp-postgresql:
+    image: docker.skidata.net/ssp-postgresql:0.4
+    environment:
+      PGPASSWORD: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+    - db_data:/var/lib/postgres
+    expose:
+    - '5432'
+  ssp-vsm-admin:
+    image: docker.skidata.net/ssp-vsm-admin:0.6.5-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SSP_HOSTNAME: "$SSP_HOSTNAME"
+      VIRTUAL_HOST: '*/admin, */admin/*'
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-discovery:ssp-discovery
+    - ssp-gateway:ssp-gateway
+    expose:
+    - '20000'
+  ssp-rabbitmq:
+    image: tutum/rabbitmq
+    environment:
+      RABBITMQ_PASS: admin
+    expose:
+    - '5672'
+    - '15672'
+  ssp-dta-adapter:
+    image: docker.skidata.net/ssp-dta-adapter:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '40010'
+  ssp-pim:
+    image: docker.skidata.net/ssp-pim:0.6.4-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '31020'
+  ssp-gateway:
+    image: docker.skidata.net/ssp-gateway:0.6.5-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      VIRTUAL_HOST: '*/*'
+    links:
+    - ssp-auth:ssp-auth
+    - ssp-discovery:ssp-discovery
+    - ssp-pim:ssp-pim
+    - ssp-notification:ssp-notification
+    - ssp-partner:ssp-partner
+    - ssp-catalog:ssp-catalog
+    expose:
+    - '8080'
+  ssp-auth:
+    image: docker.skidata.net/ssp-auth:0.6.6-SNAPSHOT
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      VIRTUAL_HOST: '*/auth, */auth/*'
+    links:
+    - ssp-rabbitmq:ssp-rabbitmq
+    - ssp-postgresql:ssp-postgresql
+    - ssp-discovery:ssp-discovery
+    expose:
+    - '9999'
+  ssp-catalog:
+    image: docker.skidata.net/ssp-catalog:0.0.2-SNAPSHOT
+    ports:
+      - '31030'
+    links:
+      - ssp-discovery:ssp-discovery
+      - ssp-rabbitmq:ssp-rabbitmq
+      - ssp-auth:ssp-auth
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PROXY_HOST: "$PROXY_HOST"
+      PROXY_PORT: "$PROXY_PORT"
+    expose:
+    - '31030' 
