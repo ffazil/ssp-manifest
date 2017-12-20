@@ -199,7 +199,7 @@ services:
     expose:
     - '31030'
   ssp-pricing:
-    image: swblr.skidata.net/ssp-pricing:0.0.1
+    image: docker.skidata.net/ssp-pricing:0.0.1
     mem_limit: 1500m
     links:
       - ssp-discovery
@@ -211,7 +211,7 @@ services:
     expose:
     - '33100'
   ssp-zipkin:
-    image: swblr.skidata.net/ssp-zipkin:0.0.1
+    image: docker.skidata.net/ssp-zipkin:0.0.1
     mem_limit: 1000m
     environment:
       SPRING_PROFILES_ACTIVE: docker
