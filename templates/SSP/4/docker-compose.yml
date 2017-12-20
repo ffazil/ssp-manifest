@@ -203,6 +203,7 @@ services:
     mem_limit: 1500m
     links:
       - ssp-discovery
+      - ssp-postgresql:ssp-postgresql
       - ssp-rabbitmq
       - ssp-auth
     environment:
