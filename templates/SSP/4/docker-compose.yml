@@ -48,6 +48,7 @@ services:
     mem_limit: 1500m
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: "-Xmx1024m -Xss256k"
     links:
     - ssp-auth:ssp-auth
     - ssp-rabbitmq:ssp-rabbitmq
@@ -60,9 +61,8 @@ services:
   ssp-discovery:
     image: docker.skidata.net/ssp-discovery:0.6.4
     environment:
-      JAVA_OPTS: -Xmx512m -Xss256k
+      JAVA_OPTS: "-Xmx512m -Xss256k"
       SPRING_PROFILES_ACTIVE: docker
-      JAVA_OPTS: "-Xmx1024m -Xss256k"
     expose:
     - '8761'
   ssp-lb:
@@ -74,7 +74,7 @@ services:
       io.rancher.container.create_agent: 'true'
       io.rancher.scheduler.global: 'true'
   ssp-partner:
-    image: docker.skidata.net/ssp-partner:0.6.4
+    image: docker.skidata.net/ssp-partner:0.6.5
     mem_limit: 1500m
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -172,7 +172,7 @@ services:
     expose:
     - '8080'
   ssp-auth:
-    image: docker.skidata.net/ssp-auth:0.6.6
+    image: docker.skidata.net/ssp-auth:0.6.7
     mem_limit: 1500m
     environment:
       SPRING_PROFILES_ACTIVE: docker
