@@ -156,7 +156,7 @@ services:
     expose:
     - '31020'
   ssp-gateway:
-    image: docker.skidata.net/ssp-gateway:0.6.5
+    image: docker.skidata.net/ssp-gateway:0.6.6-SNAPSHOT
     mem_limit: 1500m
     environment:
       SPRING_PROFILES_ACTIVE: docker
